@@ -104,14 +104,17 @@ const initWoggleGame = () => {
 
   // Main Game Logic
 
+  // setup the game
   let userScore = 0;
   renderLetterBox(generateLetterBox());
   document.querySelector('#letterbox').addEventListener('click', letterBoxOnClickHandler);
   document.querySelector('#submit > a').addEventListener('click', submitOnClickHandler);    
 
+  // start the game
   const introMessage = 'Your goal is to collect existing words from letters bellow. Click a button below to start the game.';
   alert(introMessage);
 
+  // finish the game
   setTimeout(function() {
     alert(`You've got ${userScore} points. Congratulations!`);
     window.location.reload();
