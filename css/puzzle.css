@@ -72,7 +72,7 @@ body { background: #cdbdae; font-family: Trebuchet MS, Verdana, Helvetica, Arial
 #submit a.disabled:hover { background: none; color: #000; }
 
 #wordListBg { background: url('../images/bgWordCollection.png') no-repeat; height: 216px; left: 439px; position: absolute; top: 280px; width: 315px; }
-#wordList { height: 200px; overflow: auto; margin: 8px; padding: 0 12px; text-align: left; width: 299px; }
+#wordList {height: 200px;overflow: auto;margin: 8px;padding: 0 12px;text-align: left;width: 299px;}
 #wordList p { font-size: 16px; line-height: 10px; }
 
 #score { background: url('../images/bgScore_Submit.png') no-repeat; font-size: 20px; height: 46px; left: 439px; padding: 10px 0 0 0; position: absolute; top: 500px; width: 315px; }

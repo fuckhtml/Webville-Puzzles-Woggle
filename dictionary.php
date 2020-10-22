@@ -1,5 +1,4 @@
-<?
-$word = $_REQUEST['word'];
+<?php
 
 $dict = "
  aardvark 
@@ -81539,11 +81538,5 @@ $dict = "
  zymurgies 
  zymurgy 
 ";
-
-if (strpos( $dict, ' ' . $word . ' ' ) > -1) { 
-  echo "matches"; 
-} else { 
-  echo -1; 
-}
 
 ?>

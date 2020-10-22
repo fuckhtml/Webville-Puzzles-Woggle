@@ -1,7 +1,7 @@
 'use strict';
 
 const initWoggleGame = () => {
-  
+
   const generateLetterBox = () => {
     const letterFrequency = {
       "a": 8,
@@ -31,6 +31,7 @@ const initWoggleGame = () => {
       "y": 2,
       "z": 1
     }
+
     const letterBoxLength = 16;
     let letterBox = '';
 
@@ -51,9 +52,13 @@ const initWoggleGame = () => {
 
   const renderLetterBox = (letterBox) => {
     const letterBoxNode = document.querySelector('#letterbox');
-    for (let i = 0; i < letterBoxNode.children.length; i++) {
-      letterBoxNode.children[i].classList.add(`l${letterBox[i]}`);
-    }
+    Array.from(letterBoxNode.children).map( function(tile, i) {
+      if (/\bl[a-z]\b/.test(tile.className)) {
+        tile.className = tile.className.replace(/\bl[a-z]\b/, `l${letterBox[i]}`)
+      } else {
+        tile.classList.add(`l${letterBox[i]}`);   
+      }
+    })
   }
 
   const letterBoxOnClickHandler = (event) => {
@@ -64,13 +69,44 @@ const initWoggleGame = () => {
     }
   }
 
+  const submitOnClickHandler = () => {
+    const currentWordNode = document.querySelector('#currentWord');
+    const currentWord = currentWordNode.innerText;
 
+    // Send our typed word to get the points —
+    // We Send Syncronious Request
+    // We can't use browswer window until we get request.readyState = 4
+    let request = new XMLHttpRequest();
+    request.open('GET', `get-word-points.php?word=${currentWord}`, false);
+    request.send(null);
+
+    if (parseInt(request.responseText) > 0) {
+      // update score
+      userScore += parseInt(request.responseText);
+      document.querySelector('#score').innerText = document.querySelector('#score').innerText.replace(/\d{1,}/, userScore);
+
+      // Generate and Render LetterBox
+      renderLetterBox(generateLetterBox());
+  
+      // add typed word into the wordList
+      let wordNode = document.createElement('p');
+      wordNode.innerText = currentWord;
+      document.querySelector('#wordList').append(wordNode);
+    }
+
+    // clean currenWordNode
+    currentWordNode.innerText = '';
+
+    // enable tiles
+    const letterBoxNode = document.querySelector('#letterbox');
+    Array.from(letterBoxNode.children).map(tile => tile.classList.remove('disabled'));
+  }
 
   // Main Game Logic
-
+  let userScore = 0;
   renderLetterBox(generateLetterBox());
   document.querySelector('#letterbox').addEventListener('click', letterBoxOnClickHandler);
-
+  document.querySelector('#submit > a').addEventListener('click', submitOnClickHandler);
 }
 
 window.addEventListener('load', initWoggleGame);
